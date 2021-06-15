@@ -35,6 +35,33 @@ public class Offer07 {
         root.right = myBuildTree(preorder, inorder, preorder_left + size_left_subtree + 1, preorder_right, inorder_root + 1, inorder_right);
         return root;
     }
+
+    /**
+     * my solution
+     * @param preorder
+     * @param inorder
+     * @return
+     */
+    public TreeNode buildTree1(int[] preorder, int[] inorder) {
+        indexMap=new HashMap<>();
+        for(int i=0;i<inorder.length;i++){
+            indexMap.put(inorder[i],i);
+        }
+        return buildNode(preorder,inorder,0,preorder.length-1,0,inorder.length-1);
+    }
+
+    public TreeNode buildNode(int[] preorder,int[] inorder,int b1,int e1,int b2,int e2){
+        if (b1 > e1) {
+            return null;
+        }
+        TreeNode node=new TreeNode(preorder[b1]);
+        int i=indexMap.get(preorder[b1]);
+
+        int len=i-b2;
+        node.left=buildNode(preorder,inorder,b1+1,b1+1+len-1,b2,i-1);
+        node.right=buildNode(preorder,inorder,b1+1+len,e1,i+1,e2);
+        return node;
+    }
 }
 
 class TreeNode {
